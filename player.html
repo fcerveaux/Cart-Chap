@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Cart'chap — Joueur</title>
+<link rel="stylesheet" href="styles.css"/>
+<link rel="icon" href="assets/logo.svg">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; media-src 'self' data: https:; style-src 'self' 'unsafe-inline'; script-src 'self'; frame-src 'none'; connect-src 'self'; base-uri 'none'; frame-ancestors 'none'">
+</head>
+<body class="cc-shell">
+<header class="cc-topbar">
+<a href="./" class="cc-back">← Accueil</a>
+<h1>Joueur — Cart'chap</h1>
+</header>
+<main class="cc-container">
+<section class="cc-panel">
+<p>Charge un jeu via lien <em>(hash)</em> dans l’URL, ou colle un JSON :</p>
+<textarea id="paste" class="cc-textarea" placeholder="Colle ici un JSON de jeu, puis Démarrer"></textarea>
+<button id="startBtn" class="cc-btn">Démarrer</button>
+</section>
+
+
+<section id="game" class="cc-panel" hidden>
+<h2 id="gTitle"></h2>
+<div id="stage"></div>
+</section>
+
+
+<dialog id="extWarn" class="cc-dialog">
+<h3>Ouverture d'un site externe</h3>
+<p>Ce lien pointe vers un site tiers qui peut utiliser des cookies/traceurs. Continuer ?</p>
+<menu>
+<button id="extCancel" class="cc-btn">Annuler</button>
+<button id="extContinue" class="cc-btn danger">Continuer</button>
+</menu>
+</dialog>
+
+
+</main>
+
+
+<script src="js/app-common.js"></script>
+<script src="js/player.js"></script>
+</body>
+</html>
