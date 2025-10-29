@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Cart'chap — Accueil</title>
+<link rel="stylesheet" href="styles.css"/>
+<link rel="icon" href="assets/logo.svg">
+<meta name="color-scheme" content="light dark">
+</head>
+<body class="cc-shell">
+<header class="cc-header">
+<img src="assets/logo.svg" alt="Cart'chap" class="cc-logo"/>
+<h1>Cart'chap</h1>
+<p class="cc-sub">Créer, partager et jouer — sans comptes, sans collecte.</p>
+</header>
+<main class="cc-main">
+<a class="cc-bigbtn" href="editor.html">Éditeur (enseignants)</a>
+<a class="cc-bigbtn ghost" href="player.html">Joueur (ouvrir un lien / hash)</a>
+</main>
+<footer class="cc-footer">© Cart'chap — projet éducatif sans collecte — <a href="#" id="extPolicy">Politique</a></footer>
+<script>
+// Bouton politique (exemple local)
+document.getElementById('extPolicy').addEventListener('click', (e)=>{
+e.preventDefault();
+alert("Aucune donnée personnelle collectée. Les liens externes peuvent entraîner des cookies chez les sites tiers.");
+});
+</script>
+</body>
+</html>
