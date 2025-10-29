@@ -1,0 +1,32 @@
+<!-- Modèle généré dynamiquement par l'éditeur : un fichier unique par jeu -->
+<!doctype html>
+<meta charset="utf-8">
+<title>Cart'chap — Jeu</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:,">
+<style>html,body{margin:0;font-family:system-ui,Segoe UI,Roboto,Arial} .btn{padding:.6rem 1rem;border-radius:.8rem;border:0;background:#7ED957;color:#0B6623;font-weight:700} .wrap{min-height:100svh;display:grid;place-items:center} .card{max-width:720px;margin:2rem;padding:1.5rem;border-radius:1rem;box-shadow:0 10px 30px rgba(0,0,0,.08);border:1px solid #eaeaea}</style>
+<div class="wrap"><div class="card">
+<h1>Cart'chap — Charger le jeu</h1>
+<p>Cliquez pour démarrer. Aucune donnée n'est collectée.</p>
+<button class="btn" id="go">Démarrer</button>
+</div></div>
+<script>
+// Le placeholder %%PAYLOAD%% est remplacé par l'éditeur (JSON compressé base64)
+const b64 = '%%PAYLOAD%%';
+async function inflate(b64){
+const bin = Uint8Array.from(atob(b64), c=>c.charCodeAt(0));
+if ('DecompressionStream' in window){
+const ds = new DecompressionStream('gzip');
+const decompressed = await new Response(new Response(bin).body.pipeThrough(ds)).arrayBuffer();
+return new TextDecoder().decode(decompressed);
+}
+// Fallback: pas de gzip → contenu non compressé
+return new TextDecoder().decode(bin);
+}
+document.getElementById('go').addEventListener('click', async ()=>{
+const json = await inflate(b64);
+const url = new URL('./player.html', location.href);
+url.hash = '#g=' + encodeURIComponent(json);
+location.href = url.toString();
+});
+</script>
