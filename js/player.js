@@ -1,6 +1,3 @@
-import { fromHashURL } from './app-common.js';
-
-
 const paste = document.getElementById('paste');
 const startBtn = document.getElementById('startBtn');
 const gameSec = document.getElementById('game');

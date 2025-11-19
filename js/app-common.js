@@ -1,5 +1,5 @@
 // Utilitaires communs (compression, hash, fichier, QR minimal)
-export async function decompressFromBase64Gzip(b64){
+async function decompressFromBase64Gzip(b64){
 const bin = Uint8Array.from(atob(b64), c=>c.charCodeAt(0));
 if ('DecompressionStream' in window){
 const ds = new DecompressionStream('gzip');
@@ -10,7 +10,7 @@ return new TextDecoder().decode(bin);
 }
 
 
-export function downloadJSON(obj, filename="mon-jeu.escape.json"){
+function downloadJSON(obj, filename="mon-jeu.escape.json"){
 const blob = new Blob([JSON.stringify(obj)], {type:"application/json"});
 const a = document.createElement('a');
 a.href = URL.createObjectURL(blob); a.download = filename; a.click();
@@ -18,20 +18,20 @@ setTimeout(()=> URL.revokeObjectURL(a.href), 0);
 }
 
 
-export async function uploadJSONFile(file){
+async function uploadJSONFile(file){
 const text = await file.text();
 return JSON.parse(text);
 }
 
 
-export function randomCode(len=6){
+function randomCode(len=6){
 const alphabet = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
 let out=''; for(let i=0;i<len;i++){ out += alphabet[Math.floor(Math.random()*alphabet.length)]; }
 return out; // pour nommer le loader: ABC123.html
 }
 
 
-export function toHashURL(game){
+function toHashURL(game){
 const s = JSON.stringify(game);
 // On tente gzip pour raccourcir, sinon brut
 return compressToBase64Gzip(s).then(b64=>{
@@ -42,7 +42,7 @@ return url.toString();
 }
 
 
-export function fromHashURL(){
+function fromHashURL(){
 const m = location.hash.match(/#g=(.+)$/);
 if(!m) return null;
 const b64 = decodeURIComponent(m[1]);
@@ -50,7 +50,7 @@ return decompressFromBase64Gzip(b64).catch(()=> atob(b64));
 }
 
 
-export function makeQRCanvas(text){
+function makeQRCanvas(text){
 // QR minimal via API Canvas (non optimal). Pour production, tu peux remplacer par une lib locale.
 const c = document.createElement('canvas');
 c.width = c.height = 256;
@@ -66,7 +66,7 @@ return c; // NOTE: placeholder. Pour un vrai QR, intégrer une lib locale ultér
 }
 
 
-export function externalLinkWithWarning(anchor){
+function externalLinkWithWarning(anchor){
 const dlg = document.getElementById('extWarn') || document.getElementById('extWarning');
 if(!dlg){ window.open(anchor.href, '_blank','noopener'); return; }
 const cont = dlg.querySelector('#extContinue');

@@ -1,4 +1,3 @@
-import { downloadJSON, uploadJSONFile, randomCode, toHashURL, compressToBase64Gzip, makeQRCanvas } from './app-common.js';
 li.innerHTML = `
 <label>Titre carte <input data-k="title" data-i="${idx}" value="${c.title||''}"></label>
 <label>Énoncé <textarea data-k="prompt" data-i="${idx}">${c.prompt||''}</textarea></label>
