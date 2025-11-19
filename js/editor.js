@@ -92,10 +92,18 @@ function bind() {
   });
 
   addCard.onclick = () => {
-    game.cards.push({ title: "", prompt: "", answer: "", media: "" });
-    markDirty();
-    render();
-  };
+  game.cards.push({
+    title: "",
+    prompt: "",
+    answer: "",
+    media: "",
+    illustration: "",
+    badge: ""
+  });
+  markDirty();
+  render();
+};
+
 
   importBtn.onclick = () => fileInput.click();
 

@@ -50,14 +50,18 @@ function renderGame(g) {
     const el = document.createElement("div");
     el.className = "cc-card";
     el.innerHTML = `
-      <h3>${c.title || "Étape " + (idx + 1)}</h3>
-      <p>${(c.prompt || "").replace(/\n/g, "<br>")}</p>
-      ${c.media ? `<div class="media">${mediaElement(c.media)}</div>` : ""}
-      <div class="ans">
-        <input id="answer" placeholder="Réponse (optionnel)">
-        <button id="validate" class="cc-btn">Valider</button>
-      </div>
-    `;
+  <div class="cc-card-title">
+    <h3>${c.title || "Étape " + (idx + 1)}</h3>
+    ${c.badge ? `<span class="cc-badge">${c.badge}</span>` : ""}
+  </div>
+  <p>${(c.prompt || "").replace(/\n/g, "<br>")}</p>
+  ${c.illustration ? `<pre class="cc-art">${c.illustration}</pre>` : ""}
+  ${c.media ? `<div class="media">${mediaElement(c.media)}</div>` : ""}
+  <div class="ans">
+    <input id="answer" placeholder="Réponse (optionnel)">
+    <button id="validate" class="cc-btn">Valider</button>
+  </div>
+`;
     stageEl.innerHTML = "";
     stageEl.appendChild(el);
 
