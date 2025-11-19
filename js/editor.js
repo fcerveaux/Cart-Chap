@@ -1,5 +1,6 @@
 // js/editor.js
-// Éditeur Cart'chap — utilise les fonctions globales de app-common.js
+// Éditeur Cart'chap — version avec Illustration + Badge numérique
+// Utilise les fonctions globales définies dans app-common.js
 
 let game = { title: "", subject: "", duration: null, cards: [] };
 let dirty = false;
@@ -37,10 +38,28 @@ function render() {
     const li = document.createElement("li");
     li.className = "cc-card";
     li.innerHTML = `
-      <label>Titre carte <input data-k="title" data-i="${idx}" value="${c.title || ""}"></label>
-      <label>Énoncé <textarea data-k="prompt" data-i="${idx}">${c.prompt || ""}</textarea></label>
-      <label>Réponse attendue (optionnel) <input data-k="answer" data-i="${idx}" value="${c.answer || ""}"></label>
-      <label>Média auto-hébergé (URL interne) <input data-k="media" data-i="${idx}" value="${c.media || ""}" placeholder="https://serveur-academie/..."></label>
+      <label>Titre de la carte
+        <input data-k="title" data-i="${idx}" value="${c.title || ""}">
+      </label>
+
+      <label>Énoncé
+        <textarea data-k="prompt" data-i="${idx}">${c.prompt || ""}</textarea>
+      </label>
+
+      <label>Illustration (texte / schéma / emojis)
+        <textarea data-k="illustration" data-i="${idx}">${c.illustration || ""}</textarea>
+      </label>
+
+      <label>Nombre / badge (optionnel)
+        <input data-k="badge" data-i="${idx}" value="${c.badge || ""}"
+               placeholder="ex : 3, 42, 7A...">
+      </label>
+
+      <label>Média auto-hébergé (URL interne)
+        <input data-k="media" data-i="${idx}" value="${c.media || ""}"
+               placeholder="https://serveur-academie/...">
+      </label>
+
       <div style="display:flex;gap:.5rem;margin-top:.5rem">
         <button data-act="up" data-i="${idx}" class="cc-btn ghost">↑</button>
         <button data-act="down" data-i="${idx}" class="cc-btn ghost">↓</button>
@@ -70,6 +89,7 @@ function bind() {
     const i = Number(t.dataset.i);
     const k = t.dataset.k;
     if (!Number.isFinite(i) || !k) return;
+    if (!game.cards[i]) return;
     game.cards[i][k] = t.value;
     markDirty();
   });
@@ -79,6 +99,7 @@ function bind() {
     const i = Number(t.dataset.i);
     const act = t.dataset.act;
     if (!Number.isFinite(i) || !act) return;
+    if (!game.cards[i]) return;
 
     if (act === "del") {
       game.cards.splice(i, 1);
@@ -92,18 +113,17 @@ function bind() {
   });
 
   addCard.onclick = () => {
-  game.cards.push({
-    title: "",
-    prompt: "",
-    answer: "",
-    media: "",
-    illustration: "",
-    badge: ""
-  });
-  markDirty();
-  render();
-};
-
+    game.cards.push({
+      title: "",
+      prompt: "",
+      answer: "",
+      media: "",
+      illustration: "",
+      badge: ""
+    });
+    markDirty();
+    render();
+  };
 
   importBtn.onclick = () => fileInput.click();
 
@@ -111,7 +131,17 @@ function bind() {
     const file = fileInput.files[0];
     if (!file) return;
     try {
-      game = await uploadJSONFile(file);
+      const imported = await uploadJSONFile(file);
+      // On accepte les vieux fichiers sans illustration/badge
+      imported.cards = (imported.cards || []).map(c => ({
+        title: c.title || "",
+        prompt: c.prompt || "",
+        answer: c.answer || "",
+        media: c.media || "",
+        illustration: c.illustration || "",
+        badge: c.badge || ""
+      }));
+      game = imported;
       dirty = false;
       render();
       alert("Jeu importé.");
@@ -159,10 +189,11 @@ function bind() {
   qrBtn.onclick = () => {
     const url = shareLink.value.trim();
     if (!url) {
-      alert("Génère d’abord un lien.");
+      alert("Génère d’abord un lien avant de créer un QR.");
       return;
     }
     qrDiv.innerHTML = "";
+    // ATTENTION : QR factice pour l’instant, juste un visuel
     qrDiv.appendChild(makeQRCanvas(url));
   };
 
